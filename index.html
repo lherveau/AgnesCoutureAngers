@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agnès Herveau - Couture Mariage à Angers</title>
+    <meta name="description" content="Créatrice de robes de mariée sur mesure à Angers. Une robe unique qui vous ressemble, créée avec passion et artisanat d'art.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              sans: ['Lato', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                gold: '#C5A059',
+                cream: '#FDFBF7',
+                stone: '#E6E2DD',
+                charcoal: '#2D2A26',
+              }
+            },
+            textShadow: {
+              sm: '0 1px 2px var(--tw-shadow-color)',
+              DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+            }
+          }
+        },
+        plugins: [
+          function ({ matchUtilities, theme }) {
+            matchUtilities(
+              {
+                'text-shadow': (value) => ({
+                  textShadow: value,
+                }),
+              },
+              { values: theme('textShadow') }
+            )
+          },
+        ],
+      }
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      .fade-in-up { animation: fadeInUp 1s ease-out forwards; opacity: 0; transform: translateY(20px); }
+      @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+      .delay-100 { animation-delay: 0.1s; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-300 { animation-delay: 0.3s; }
+      body.modal-open { overflow: hidden; }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      /* Gallery Specific Styles */
+      .gallery-overlay {
+        background-color: rgba(45, 42, 38, 0.95);
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-brand-cream text-brand-charcoal antialiased selection:bg-brand-stone selection:text-brand-charcoal font-sans">
+    
+    <!-- Navigation Header -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent py-6">
+      <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+        
+        <!-- Logo -->
+        <a href="#" class="group">
+          <h1 id="header-logo-text" class="font-serif text-2xl md:text-3xl tracking-widest uppercase transition-colors duration-300 text-gray-900 md:text-white md:text-shadow-sm shadow-black/30">
+            Agnès Herveau
+          </h1>
+          <span id="header-logo-sub" class="block text-[10px] md:text-xs tracking-[0.3em] text-center mt-1 uppercase transition-colors duration-300 text-brand-gold md:text-white/80">
+            Couture Mariage
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-12">
+          <a href="#intro" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">Philosophie</a>
+          <a href="#process" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">L'Expérience</a>
+          <a href="#collections" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">Collections</a>
+          
+          <button onclick="toggleModal(true)" class="cta-button px-6 py-2 border transition-all duration-300 text-sm uppercase tracking-widest border-white text-white hover:bg-white hover:text-gray-900 shadow-sm">
+            Prendre Rendez-vous
+          </button>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-900 z-50 relative" aria-label="Toggle menu">
+          <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          <svg id="icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div id="mobile-menu-overlay" class="fixed inset-0 bg-brand-cream z-40 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-center items-center space-y-8 p-8 shadow-2xl">
+        <a href="#intro" class="mobile-link font-serif text-3xl text-gray-800 hover:text-brand-gold italic">Philosophie</a>
+        <a href="#process" class="mobile-link font-serif text-3xl text-gray-800 hover:text-brand-gold italic">L'Expérience</a>
+        <a href="#collections" class="mobile-link font-serif text-3xl text-gray-800 hover:text-brand-gold italic">Collections</a>
+        <button onclick="toggleModal(true); toggleMobileMenu()" class="mt-8 px-8 py-3 border border-gray-800 text-gray-800 uppercase tracking-widest hover:bg-gray-800 hover:text-white transition-colors">
+          Prendre Rendez-vous
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="relative w-full h-screen overflow-hidden">
+        <div class="absolute inset-0 w-full h-full">
+          <img
+            src="hero-accueil.jpg"
+            onerror="this.src='https://lh3.googleusercontent.com/sitesv/AAzXCkf78hldJq4CQMvWcmVDhBncP-8xb4aA4mT0rVn3Hwj7QOku1-nYACeqtK62iX6ijq83Xz13aXSGFEI129fiMzc_1px7GpJvnfDMoxaBbbS0jHGk0Maxkz0qu562DF584nzbEJqPN00moA6Bzt9jyUse_usEC_Z7XMAwZQ_phhjdnwGmW8nXugdJJb2pc_ENp_eYoYlA4tbOOY0Q3lKe7eUAqvg9G65rDbSo=w1280'"
+            alt="Robe de mariée iconique Agnès Herveau"
+            class="w-full h-full object-cover object-center"
+          />
+          <div class="absolute inset-0 bg-black/20 md:bg-black/10 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
+        </div>
+
+        <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+          <div class="max-w-4xl mx-auto text-white">
+            <h2 class="font-serif text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight drop-shadow-lg fade-in-up text-shadow">
+              Une Robe Unique<br />
+              <span class="italic font-light">Qui Vous Ressemble</span>
+            </h2>
+            
+            <p class="text-lg md:text-xl tracking-wide font-light mb-10 text-white/90 drop-shadow-md fade-in-up delay-100 text-shadow-sm">
+              Création Artisanale de Robes à Angers
+            </p>
+            
+            <div class="fade-in-up delay-200">
+              <button onclick="toggleModal(true)" class="group inline-flex items-center gap-3 bg-white/90 hover:bg-white text-gray-900 px-8 py-4 uppercase tracking-widest text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Prendre Rendez-vous
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-gold group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70 hidden md:block">
+          <span class="text-xs uppercase tracking-widest text-shadow-sm">Découvrir</span>
+        </div>
+      </section>
+
+      <!-- Intro & Emotion Section -->
+      <section id="intro" class="py-24 md:py-32 bg-brand-cream relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent"></div>
+        
+        <div class="container mx-auto px-6 max-w-4xl text-center relative z-10">
+          <span class="block text-brand-gold text-xs font-bold tracking-[0.3em] uppercase mb-6">
+            Votre jour, votre robe
+          </span>
+          
+          <h2 class="font-serif text-3xl md:text-5xl text-gray-800 mb-10 leading-snug">
+            "Ce jour est si important..."
+          </h2>
+          
+          <div class="space-y-8 text-gray-600 leading-loose text-lg font-light mb-16 mx-auto max-w-3xl text-justify md:text-center">
+             <p>
+                La robe de mariée n’est pas une simple robe. C’est celle qui vous sublimera le jour le plus important de votre vie. C’est dans cette robe que vous serez admirée par tous vos proches et amis. Ce jour est si important que vous lirez l’émotion dans les yeux de votre amoureux lorsqu’il vous découvrira pour la première fois.
+             </p>
+             <p>
+                Le choix de cette robe est donc important : elle doit vous ressembler, refléter votre personnalité, vous mettre en valeur. Elle doit être faite pour vous et parfaitement adaptée à votre corps.
+             </p>
+          </div>
+
+          <div class="p-8 border-y border-brand-gold/30 bg-white/50">
+             <h3 class="font-serif text-2xl text-brand-charcoal mb-4">Votre Robe de Rêve, Créée Avec Passion</h3>
+             <p class="text-gray-600 font-light italic">
+                "Créatrice passionnée, je serai là pour vous accompagner et réaliser la robe de vos rêves, de la base jusqu’aux plus petits détails."
+             </p>
+             <p class="text-gray-600 font-light mt-4">
+               C’est la voie que je vous propose en vous accompagnant par la couture, la créativité, la minutie, les détails et des tissus luxueux.
+             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Process / Timeline Section -->
+      <section id="process" class="py-24 bg-white relative">
+         <div class="container mx-auto px-6 md:px-12">
+            <div class="text-center mb-20">
+               <span class="text-brand-gold text-xs font-bold tracking-[0.3em] uppercase">Atelier Angers</span>
+               <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mt-4 mb-4">Création Étape par Étape</h2>
+               <div class="h-1 w-20 bg-brand-gold mx-auto"></div>
+               <p class="mt-6 text-gray-500 font-light max-w-2xl mx-auto">Je réaliserai la robe de vos rêves avec vous, pour une création unique et 100% made in France à Angers.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+               <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-100 -z-10"></div>
+
+               <!-- Step 1 -->
+               <div class="relative text-center bg-white p-4">
+                  <div class="w-24 h-24 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100 relative z-10">
+                     <span class="font-serif text-3xl text-brand-gold">1</span>
+                  </div>
+                  <h3 class="font-serif text-xl text-gray-900 mb-3">Découverte & Devis</h3>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                     Un premier rendez-vous pour découvrir votre projet, votre mariage et vos envies. À la suite de ce rendez-vous, je vous fournirai un devis.
+                  </p>
+               </div>
+
+               <!-- Step 2 -->
+               <div class="relative text-center bg-white p-4">
+                  <div class="w-24 h-24 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100 relative z-10">
+                     <span class="font-serif text-3xl text-brand-gold">2</span>
+                  </div>
+                  <h3 class="font-serif text-xl text-gray-900 mb-3">Mesures & Toile</h3>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                     Un second rendez-vous pour prendre vos mesures et réaliser un premier essayage avec une toile de coton afin d’adapter la robe à votre silhouette.
+                  </p>
+               </div>
+
+               <!-- Step 3 -->
+               <div class="relative text-center bg-white p-4">
+                  <div class="w-24 h-24 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100 relative z-10">
+                     <span class="font-serif text-3xl text-brand-gold">3</span>
+                  </div>
+                  <h3 class="font-serif text-xl text-gray-900 mb-3">Ajustements</h3>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                     Troisième rendez-vous d’essayage avec la base de la robe et les ajustements nécessaires.
+                  </p>
+               </div>
+
+               <!-- Step 4 -->
+               <div class="relative text-center bg-white p-4">
+                  <div class="w-24 h-24 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100 relative z-10">
+                     <span class="font-serif text-3xl text-brand-gold">4</span>
+                  </div>
+                  <h3 class="font-serif text-xl text-gray-900 mb-3">La Robe de Rêve</h3>
+                  <p class="text-sm text-gray-500 leading-relaxed">
+                     Un quatrième (et parfois un cinquième) essayage pour les robes les plus complexes avant que vous ne puissiez repartir avec la robe de vos rêves.
+                  </p>
+               </div>
+            </div>
+            
+            <!-- Pricing Banner -->
+            <div class="mt-20 bg-brand-charcoal text-white p-10 md:p-16 text-center rounded-sm shadow-xl mx-auto max-w-5xl">
+                <h3 class="font-serif text-2xl md:text-3xl mb-4">Des Robes Épurées à Élaborées</h3>
+                <p class="text-white/70 mb-8 font-light text-lg">
+                   Les tarifs de mes robes varient selon le travail et les tissus.
+                </p>
+                <div class="inline-block border border-brand-gold px-8 py-4">
+                    <span class="text-2xl md:text-4xl font-serif text-brand-gold">1 000€</span>
+                    <span class="mx-4 text-white/50 text-sm uppercase tracking-widest">à</span>
+                    <span class="text-2xl md:text-4xl font-serif text-brand-gold">4 500€</span>
+                </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Collections Section -->
+      <section id="collections" class="py-24 bg-brand-cream/30">
+        <div class="container mx-auto px-6 md:px-12">
+          <div class="text-center mb-20">
+            <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mb-4">Nos Univers</h2>
+            <div class="h-1 w-20 bg-brand-gold mx-auto"></div>
+          </div>
+
+          <!-- Two Main Categories -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            
+            <!-- Robes de Mariée (Renamed from Couture) -->
+            <div class="group cursor-pointer" onclick="openGallery('mariage')">
+              <div class="relative overflow-hidden aspect-[3/4] mb-6 bg-gray-100 shadow-lg">
+                <div class="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/20 transition-colors duration-500 z-10"></div>
+                <!-- Image for Wedding Category -->
+                <img src="mariage-satin.jpg" onerror="this.src='https://picsum.photos/seed/wedding3/800/1000'" alt="Robes de Mariée" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" loading="lazy">
+                <div class="absolute bottom-8 left-0 right-0 text-center z-20 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                   <span class="inline-block px-6 py-2 bg-white text-gray-900 text-xs uppercase tracking-widest font-bold shadow-lg">
+                     Découvrir la Collection
+                   </span>
+                </div>
+              </div>
+              <div class="text-center">
+                <h3 class="font-serif text-3xl text-gray-900 mb-2 group-hover:text-brand-gold transition-colors">Robes de Mariée</h3>
+                <p class="text-gray-500 font-light italic text-sm">Unique et 100% made in France</p>
+              </div>
+            </div>
+
+            <!-- Soir & Cocktail -->
+            <div class="group cursor-pointer" onclick="openGallery('cocktail')">
+              <div class="relative overflow-hidden aspect-[3/4] mb-6 bg-gray-100 shadow-lg">
+                <div class="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/20 transition-colors duration-500 z-10"></div>
+                <img src="robe-rouge-dentelle.jpg" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robes Soir & Cocktail" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" loading="lazy">
+                <div class="absolute bottom-8 left-0 right-0 text-center z-20 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                   <span class="inline-block px-6 py-2 bg-white text-gray-900 text-xs uppercase tracking-widest font-bold shadow-lg">
+                     Découvrir la collection
+                   </span>
+                </div>
+              </div>
+              <div class="text-center">
+                <h3 class="font-serif text-3xl text-gray-900 mb-2 group-hover:text-brand-gold transition-colors">Soir & Cocktail</h3>
+                <p class="text-gray-500 font-light italic text-sm">Élégance pour vos événements</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-charcoal text-white/80 pt-20 pb-10">
+      <div class="container mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 border-b border-white/10 pb-16">
+          
+          <div class="text-center md:text-left">
+            <h4 class="font-serif text-2xl text-white mb-6">Agnès Herveau</h4>
+            <p class="text-sm font-light leading-relaxed mb-6 max-w-xs mx-auto md:mx-0">
+              Basée à Angers, je crée des robes de mariée et de soirée sur mesure, entièrement personnalisées selon vos envies. Chaque robe est conçue avec soin.
+            </p>
+            <div class="flex justify-center md:justify-start gap-4">
+              <!-- Instagram -->
+              <a href="https://www.instagram.com/agnesherveau/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors text-white" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+              <!-- LinkedIn -->
+              <a href="https://www.linkedin.com/in/agn%C3%A8s-herveau-059435132?originalSubdomain=fr" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors text-white" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <!-- Mariages.net (Heart Icon) -->
+              <a href="https://www.mariages.net/robe-de-mariee/agnes-herveau--e366875" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors text-white" aria-label="Mariages.net">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="text-center md:text-left">
+            <h5 class="uppercase text-xs tracking-[0.2em] text-brand-gold mb-8">Contact & Atelier</h5>
+            <ul class="space-y-4 text-sm font-light">
+              <li class="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 shrink-0 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>
+                  Angers, France<br />
+                  <span class="italic text-white/40 text-xs mt-1 block">Sur rendez-vous uniquement</span>
+                </span>
+              </li>
+              <li class="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 shrink-0 mt-1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <a href="tel:0787097631" class="hover:text-white transition-colors">07 87 09 76 31</a>
+              </li>
+              <li class="flex flex-col md:flex-row items-center md:items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/50 shrink-0 mt-1"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <a href="mailto:herveauagnes@gmail.com" class="hover:text-white transition-colors">herveauagnes@gmail.com</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-center text-xs font-light text-white/30">
+          <p>&copy; 2025 Agnès Herveau Couture. Tous droits réservés.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Appointment Modal (Updated) -->
+    <div id="appointment-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+      <div class="bg-white w-full max-w-lg relative z-10 shadow-2xl p-8 md:p-12 animate-fade-in-up">
+        <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        
+        <div class="text-center mb-8">
+          <h3 class="font-serif text-3xl text-gray-900 mb-6">Contactez-moi</h3>
+          <p class="text-gray-600 font-light leading-relaxed mb-8">
+            Pour donner vie à votre robe unique et convenir d'un rendez-vous, je vous invite à me contacter directement :
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <a href="tel:0787097631" class="flex items-center justify-center gap-3 w-full border border-brand-charcoal text-brand-charcoal hover:bg-brand-charcoal hover:text-white py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+             07 87 09 76 31
+          </a>
+
+          <a href="mailto:herveauagnes@gmail.com" class="flex items-center justify-center gap-3 w-full bg-brand-charcoal text-white hover:bg-brand-gold py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300">
+             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+             herveauagnes@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Modal (New) -->
+    <div id="gallery-modal" class="fixed inset-0 z-[70] hidden flex flex-col gallery-overlay">
+        <!-- Close Button -->
+        <button onclick="closeGallery()" class="absolute top-6 right-6 text-white/70 hover:text-white z-50 p-2">
+             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <div class="flex-grow overflow-y-auto p-4 md:p-12 scrollbar-hide">
+            <div class="max-w-6xl mx-auto mt-10">
+                <div class="text-center mb-12">
+                    <span class="text-brand-gold text-xs font-bold tracking-[0.3em] uppercase">Collection</span>
+                    <h2 id="gallery-title" class="font-serif text-4xl md:text-5xl text-white mt-4">Soir & Cocktail</h2>
+                </div>
+
+                <!-- WEDDING GALLERY GRID -->
+                <div id="gallery-grid-mariage" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 1. Satin Bénitier -->
+                    <div class="md:col-span-2 relative group aspect-[4/3] overflow-hidden bg-gray-900">
+                         <img src="mariage-satin.jpg" onerror="this.src='https://images.unsplash.com/photo-1594552072238-b8a33785b261?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'" alt="Robe Satin Col Bénitier" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                             <h3 class="font-serif text-2xl text-white">L'Élégance Satinée</h3>
+                             <p class="text-white/70 text-sm font-light">Col bénitier et silhouette épurée</p>
+                         </div>
+                    </div>
+
+                    <!-- 2. Plissé Grec -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                         <img src="mariage-plisse.jpg" onerror="this.src='https://images.unsplash.com/photo-1596451190630-186aff535bf2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe Plissée Style Grec" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                             <p class="text-white/90 font-serif">Inspiration Grecque</p>
+                         </div>
+                    </div>
+
+                    <!-- 3. Courte Tulle -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                         <img src="mariage-courte.jpg" onerror="this.src='https://images.unsplash.com/photo-1546193430-c2d207739ed7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe Courte Tulle" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                             <p class="text-white/90 font-serif">Courte & Vaporeuse</p>
+                         </div>
+                    </div>
+
+                    <!-- 4. Asymétrique Drapé -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                         <img src="mariage-drape.jpg" onerror="this.src='https://images.unsplash.com/photo-1605289982774-9a6fef564df8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe Asymétrique Drapée" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                             <p class="text-white/90 font-serif">Couture Déstructurée</p>
+                         </div>
+                    </div>
+
+                     <!-- 5. Princesse Fleurs -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                         <img src="mariage-princesse.jpg" onerror="this.src='https://images.unsplash.com/photo-1549412586-7788912d8a0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe Princesse Tulle et Fleurs" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                             <p class="text-white/90 font-serif">Princesse Florale</p>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- COCKTAIL GALLERY GRID -->
+                <div id="gallery-grid-cocktail" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Featured Image: The Red Dress -->
+                    <div class="md:col-span-2 relative group aspect-[4/3] overflow-hidden bg-gray-900">
+                         <img src="robe-rouge.jpg" onerror="this.src='https://images.unsplash.com/photo-1566174053879-31528523f8ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'" alt="Robe rouge sur mannequin" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                             <h3 class="font-serif text-2xl text-white">Robe Rouge Couture</h3>
+                             <p class="text-white/70 text-sm font-light">Fleurs en relief et étole en mousseline</p>
+                         </div>
+                    </div>
+
+                    <!-- 2. Robe Bleue -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                        <img src="robe-bleue.jpg" onerror="this.src='https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe bleue brodée" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-white/90 font-serif">Bleu Royal & Broderies</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. Robe Toile de Jouy -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                        <img src="robe-toile-jouy.jpg" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe Toile de Jouy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-white/90 font-serif">Toile de Jouy</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 4. Robe Rouge Dentelle -->
+                     <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                        <img src="robe-rouge-dentelle.jpg" onerror="this.src='https://images.unsplash.com/photo-1539008835657-9e8e9680c956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe rouge dentelle" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-white/90 font-serif">Dentelle Rouge & Plissé</p>
+                        </div>
+                    </div>
+
+                    <!-- 5. Robe Rose Courte -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                        <img src="robe-rose-courte.jpg" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe rose courte" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-white/90 font-serif">Rose Poudré & Dentelle</p>
+                        </div>
+                    </div>
+
+                    <!-- 6. Robe Rouge Courte Satin -->
+                    <div class="relative group aspect-[3/4] overflow-hidden bg-gray-900">
+                        <img src="robe-rouge-courte.jpg" onerror="this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Robe rouge courte" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-white/90 font-serif">Rouge Satiné</p>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-16 text-center">
+                    <button onclick="closeGallery(); toggleModal(true)" class="border border-white text-white px-8 py-3 uppercase tracking-widest text-xs hover:bg-white hover:text-gray-900 transition-colors">
+                        Prendre Rendez-vous pour un essayage
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      // Appointment Modal Logic
+      function toggleModal(show) {
+        const modal = document.getElementById('appointment-modal');
+        if (show) {
+          modal.classList.remove('hidden');
+          document.body.classList.add('modal-open');
+        } else {
+          modal.classList.add('hidden');
+          document.body.classList.remove('modal-open');
+        }
+      }
+
+      // Gallery Modal Logic
+      function openGallery(type) {
+          const gallery = document.getElementById('gallery-modal');
+          const title = document.getElementById('gallery-title');
+          const cocktailGrid = document.getElementById('gallery-grid-cocktail');
+          const mariageGrid = document.getElementById('gallery-grid-mariage');
+
+          // Reset visibility
+          cocktailGrid.classList.add('hidden');
+          mariageGrid.classList.add('hidden');
+
+          if (type === 'mariage') {
+              title.textContent = 'Robes de Mariée';
+              mariageGrid.classList.remove('hidden');
+          } else {
+              title.textContent = 'Soir & Cocktail';
+              cocktailGrid.classList.remove('hidden');
+          }
+
+          gallery.classList.remove('hidden');
+          document.body.classList.add('modal-open');
+      }
+
+      function closeGallery() {
+          const gallery = document.getElementById('gallery-modal');
+          gallery.classList.add('hidden');
+          document.body.classList.remove('modal-open');
+      }
+
+      // Mobile Menu Logic
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu-overlay');
+      const iconMenu = document.getElementById('icon-menu');
+      const iconClose = document.getElementById('icon-close');
+      let isMenuOpen = false;
+
+      function toggleMobileMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+          mobileMenu.classList.remove('translate-x-full');
+          mobileMenu.classList.add('translate-x-0');
+          iconMenu.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        } else {
+          mobileMenu.classList.add('translate-x-full');
+          mobileMenu.classList.remove('translate-x-0');
+          iconMenu.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+
+      mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+      document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', toggleMobileMenu);
+      });
+
+      // Scroll Background Logic
+      const header = document.getElementById('main-header');
+      const logoText = document.getElementById('header-logo-text');
+      const logoSub = document.getElementById('header-logo-sub');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('bg-white/95', 'backdrop-blur-sm', 'shadow-sm', 'py-4');
+          header.classList.remove('bg-transparent', 'py-6');
+          
+          logoText.classList.remove('md:text-white', 'md:text-shadow-sm');
+          logoText.classList.add('text-gray-900');
+          
+          logoSub.classList.remove('md:text-white/80');
+          logoSub.classList.add('text-brand-gold');
+
+          document.querySelectorAll('.nav-link').forEach(link => {
+             link.classList.remove('text-white/90', 'text-shadow-sm');
+             link.classList.add('text-gray-600');
+          });
+        } else {
+          header.classList.remove('bg-white/95', 'backdrop-blur-sm', 'shadow-sm', 'py-4');
+          header.classList.add('bg-transparent', 'py-6');
+          
+          logoText.classList.add('md:text-white', 'md:text-shadow-sm');
+          logoText.classList.remove('text-gray-900');
+          
+          logoSub.classList.add('md:text-white/80');
+          logoSub.classList.remove('text-brand-gold');
+
+          document.querySelectorAll('.nav-link').forEach(link => {
+             link.classList.add('text-white/90', 'text-shadow-sm');
+             link.classList.remove('text-gray-600');
+          });
+        }
+      });
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
