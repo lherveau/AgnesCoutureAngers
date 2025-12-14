@@ -28,6 +28,7 @@
             textShadow: {
               sm: '0 1px 2px var(--tw-shadow-color)',
               DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+              lg: '0 4px 8px var(--tw-shadow-color)',
             }
           }
         },
@@ -80,30 +81,30 @@
         
         <!-- Logo -->
         <a href="#" class="group flex flex-col items-center">
-          <h1 id="header-logo-text" class="font-serif text-2xl md:text-3xl tracking-widest uppercase transition-colors duration-300 text-gray-900 md:text-white md:text-shadow-sm shadow-black/30">
+          <h1 id="header-logo-text" class="font-serif text-2xl md:text-3xl tracking-widest uppercase transition-colors duration-300 text-white text-shadow-sm shadow-black/50">
             Agnès Herveau
           </h1>
-          <div id="header-logo-line" class="w-20 h-px my-1 transition-colors duration-300 bg-gray-900 md:bg-white/80 shadow-sm shadow-black/30"></div>
-          <span id="header-logo-sub" class="block text-[10px] md:text-xs tracking-[0.3em] text-center uppercase transition-colors duration-300 text-gray-900 md:text-white/80 text-shadow-sm shadow-black/30">
+          <div id="header-logo-line" class="w-20 h-px my-1 transition-colors duration-300 bg-white/90 shadow-sm shadow-black/50"></div>
+          <span id="header-logo-sub" class="block text-[10px] md:text-xs tracking-[0.3em] text-center uppercase transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/50">
             Angers
           </span>
         </a>
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center space-x-12">
-          <a href="#intro" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">Philosophie</a>
-          <a href="#process" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">L'Expérience</a>
-          <a href="#collections" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/30">Collections</a>
+          <a href="#intro" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/50">Philosophie</a>
+          <a href="#process" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/50">L'Expérience</a>
+          <a href="#collections" class="nav-link text-sm uppercase tracking-widest hover:text-brand-gold transition-colors duration-300 text-white/90 text-shadow-sm shadow-black/50">Collections</a>
           
-          <button onclick="toggleModal(true)" class="cta-button px-6 py-2 border transition-all duration-300 text-sm uppercase tracking-widest border-white text-white hover:bg-white hover:text-gray-900 shadow-sm">
+          <button onclick="toggleModal(true)" class="cta-button px-6 py-2 border transition-all duration-300 text-sm uppercase tracking-widest border-white text-white hover:bg-white hover:text-gray-900 shadow-sm shadow-black/30">
             Prendre Rendez-vous
           </button>
         </nav>
 
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-900 z-50 relative" aria-label="Toggle menu">
-          <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-          <svg id="icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-white z-50 relative drop-shadow-md" aria-label="Toggle menu">
+          <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          <svg id="icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
 
@@ -128,17 +129,18 @@
             alt="Robe de mariée iconique Agnès Herveau"
             class="w-full h-full object-cover object-center"
           />
-          <div class="absolute inset-0 bg-black/20 md:bg-black/10 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
+          <!-- Enhanced Overlay for Text Contrast -->
+          <div class="absolute inset-0 bg-black/40 md:bg-black/20 bg-gradient-to-b from-black/60 via-transparent to-black/40"></div>
         </div>
 
         <div class="absolute inset-0 flex items-center justify-center text-center px-4">
           <div class="max-w-4xl mx-auto text-white">
-            <h2 class="font-serif text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight drop-shadow-lg fade-in-up text-shadow">
+            <h2 class="font-serif text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight drop-shadow-lg fade-in-up text-shadow-lg">
               Une Robe Unique<br />
               <span class="italic font-light">Qui Vous Ressemble</span>
             </h2>
             
-            <p class="text-lg md:text-xl tracking-wide font-light mb-10 text-white/90 drop-shadow-md fade-in-up delay-100 text-shadow-sm">
+            <p class="text-lg md:text-xl tracking-wide font-light mb-10 text-white/95 drop-shadow-md fade-in-up delay-100 text-shadow">
               Création Artisanale de Robes à Angers
             </p>
             
@@ -151,7 +153,7 @@
           </div>
         </div>
         
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70 hidden md:block">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/80 hidden md:block">
           <span class="text-xs uppercase tracking-widest text-shadow-sm">Découvrir</span>
         </div>
       </section>
@@ -318,7 +320,7 @@
          <div class="container mx-auto px-6 md:px-12">
             <div class="text-center mb-16">
                <span class="text-brand-gold text-xs font-bold tracking-[0.3em] uppercase">Témoignages</span>
-               <h2 class="font-serif text-3xl md:text-4xl text-gray-900 mt-4 mb-4">Elles nous ont fait confiance</h2>
+               <h2 class="font-serif text-3xl md:text-4xl text-gray-900 mt-4 mb-4">Elles m'ont fait confiance</h2>
                <div class="h-1 w-20 bg-brand-gold mx-auto"></div>
             </div>
             
@@ -629,25 +631,39 @@
       const logoLine = document.getElementById('header-logo-line');
       const floatingCta = document.getElementById('floating-cta');
 
-      window.addEventListener('scroll', () => {
+      function updateHeader() {
         const scrolled = window.scrollY > 50;
         const heroHeight = window.innerHeight * 0.8; // Approximate hero height
+
+        // Floating CTA Logic
+        if (window.scrollY > heroHeight) {
+          floatingCta.classList.remove('translate-y-32', 'opacity-0');
+        } else {
+          floatingCta.classList.add('translate-y-32', 'opacity-0');
+        }
 
         // Header Logic
         if (scrolled) {
           header.classList.add('bg-white/95', 'backdrop-blur-sm', 'shadow-sm', 'py-4');
           header.classList.remove('bg-transparent', 'py-6');
           
-          logoText.classList.remove('md:text-white', 'md:text-shadow-sm');
+          // Logo Text
+          logoText.classList.remove('text-white', 'text-shadow-sm');
           logoText.classList.add('text-gray-900');
           
-          // Updated scroll logic for new logo structure
-          logoLine.classList.remove('md:bg-white/80', 'shadow-sm');
+          // Logo Line
+          logoLine.classList.remove('bg-white/90', 'shadow-sm');
           logoLine.classList.add('bg-gray-900');
           
-          logoSub.classList.remove('md:text-white/80', 'text-shadow-sm');
+          // Logo Sub
+          logoSub.classList.remove('text-white/90', 'text-shadow-sm');
           logoSub.classList.add('text-gray-900');
 
+          // Mobile Menu Button
+          mobileMenuBtn.classList.remove('text-white');
+          mobileMenuBtn.classList.add('text-gray-900');
+
+          // Desktop Nav Links
           document.querySelectorAll('.nav-link').forEach(link => {
              link.classList.remove('text-white/90', 'text-shadow-sm');
              link.classList.add('text-gray-600');
@@ -656,28 +672,36 @@
           header.classList.remove('bg-white/95', 'backdrop-blur-sm', 'shadow-sm', 'py-4');
           header.classList.add('bg-transparent', 'py-6');
           
-          logoText.classList.add('md:text-white', 'md:text-shadow-sm');
+          // Logo Text
+          logoText.classList.add('text-white', 'text-shadow-sm');
           logoText.classList.remove('text-gray-900');
           
-          logoLine.classList.add('md:bg-white/80', 'shadow-sm');
+          // Logo Line
+          logoLine.classList.add('bg-white/90', 'shadow-sm');
           logoLine.classList.remove('bg-gray-900');
           
-          logoSub.classList.add('md:text-white/80', 'text-shadow-sm');
+          // Logo Sub
+          logoSub.classList.add('text-white/90', 'text-shadow-sm');
           logoSub.classList.remove('text-gray-900');
 
+          // Mobile Menu Button
+          mobileMenuBtn.classList.add('text-white');
+          mobileMenuBtn.classList.remove('text-gray-900');
+
+          // Desktop Nav Links
           document.querySelectorAll('.nav-link').forEach(link => {
              link.classList.add('text-white/90', 'text-shadow-sm');
              link.classList.remove('text-gray-600');
           });
         }
+      }
 
-        // Floating CTA Logic
-        if (window.scrollY > heroHeight) {
-          floatingCta.classList.remove('translate-y-32', 'opacity-0');
-        } else {
-          floatingCta.classList.add('translate-y-32', 'opacity-0');
-        }
-      });
+      window.addEventListener('scroll', updateHeader);
+      
+      // Run immediately on load to handle refresh position
+      window.addEventListener('load', updateHeader);
+      // Run immediately just in case load already happened
+      updateHeader();
     </script>
   <script type="module" src="/index.tsx"></script>
 </body>
